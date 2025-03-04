@@ -9,7 +9,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     const userStatus = localStorage.getItem("returningUser");
-    if (userStatus) setIsReturningUser(true);
+    if (userStatus) setIsReturningUser(false);
   }, []);
 
   return (
