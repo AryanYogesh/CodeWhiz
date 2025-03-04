@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook, faXTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
   return (
@@ -12,7 +14,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+          <h3 className="text-lg font-semibold mb-4">Explore More</h3>
           <ul className="space-y-2 text-gray-400 text-sm">
             <li><Link to="/" className="hover:text-blue-400">Home</Link></li>
             <li><Link to="/practice" className="hover:text-blue-400">Practice</Link></li>
@@ -36,9 +38,15 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-4">
-            <a href="#" className="text-gray-400 hover:text-blue-400"> Facebook</a>
-            <a href="#" className="text-gray-400 hover:text-blue-400"> Twitter</a>
-            <a href="#" className="text-gray-400 hover:text-blue-400"> Instagram</a>
+            <a href="#" className="text-gray-400 hover:text-blue-400 flex items-center space-x-2">
+              <FontAwesomeIcon icon={faFacebook} /> <span>Facebook</span>
+            </a>
+            <a href="#" className="text-gray-400 hover:text-blue-400 flex items-center space-x-2">
+            <FontAwesomeIcon icon={faXTwitter} /> <span>X(Twitter)</span>
+            </a>
+            <a href="#" className="text-gray-400 hover:text-blue-400 flex items-center space-x-2">
+              <FontAwesomeIcon icon={faInstagram} /> <span>Instagram</span>
+            </a>
           </div>
         </div>
       </div>
