@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 
 const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -13,11 +13,29 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sign Up Data:", formData);
-    // TODO: Send data to backend API
-    onClose();
+
+    try{
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "failed to register");
+      }
+
+      alert("Registration successful! You can now login.");
+      onClose();
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   if (!isOpen) return null;
@@ -43,8 +61,8 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
             <label className="block text-gray-700 text-sm font-medium">Full Name</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your full name"

@@ -1,12 +1,33 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, User } from "lucide-react";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 
 const Navbar = () => {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is already logged in (e.g., from localStorage)
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) setUser(storedUser);
+  }, []);
+
+  const handleLoginSuccess = (userData) => {
+    localStorage.setItem("user", JSON.stringify(userData)); 
+    setUser(userData); 
+    setIsSignInOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/"); 
+  };
 
   const navLinks = [
     { to: "/", text: "Home" },
@@ -32,27 +53,42 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Sign In & Sign Up Buttons */}
-          <div className="space-x-4">
-            <button
-              onClick={() => setIsSignInOpen(true)}
-              className="px-4 py-2 border border-blue-500 text-blue-500 rounded-md hover:bg-blue-500 hover:text-white transition"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => setIsSignUpOpen(true)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-            >
-              Sign Up
-            </button>
-          </div>
-        </div>
+          {/* If user is logged in, show profile dropdown */}
+          {user ? (
+            <div className="relative">
+              <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center space-x-2">
+                <User className="w-6 h-6 text-gray-700" />
+                <span className="text-gray-700">{user.username}</span>
+              </button>
 
-        {/* Mobile Menu Button */}
-        <button className="md:hidden text-gray-800">
-          <Menu size={28} />
-        </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-md">
+                  <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    Profile
+                  </Link>
+                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="space-x-4">
+              <button
+                onClick={() => setIsSignInOpen(true)}
+                className="px-4 py-2 border border-blue-500 text-blue-500 rounded-md hover:bg-blue-500 hover:text-white transition"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => setIsSignUpOpen(true)}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Modals */}
@@ -63,6 +99,7 @@ const Navbar = () => {
           setIsSignInOpen(false);
           setIsSignUpOpen(true);
         }}
+        onLoginSuccess={handleLoginSuccess} 
       />
       
       <SignUpModal
@@ -73,7 +110,6 @@ const Navbar = () => {
           setIsSignInOpen(true);
         }}
       />
-
     </nav>
   );
 };

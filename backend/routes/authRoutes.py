@@ -4,6 +4,8 @@ from config.db import get_db
 from models.User import User
 from passlib.context import CryptContext
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+
 
 router = APIRouter()
 
@@ -35,4 +37,8 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     if not db_user or not pwd_context.verify(user.password, db_user.password):
         raise HTTPException(status_code=400, detail="Invalid email or password")
     
-    return {"message": "Login successful"}
+    return JSONResponse(content={"message": "Login successful", "user": {
+        "id": db_user.id,
+        "username": db_user.username,
+        "email": db_user.email
+    }})
