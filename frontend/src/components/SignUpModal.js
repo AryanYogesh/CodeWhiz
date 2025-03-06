@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faExclamationTriangle, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
   const [formData, setFormData] = useState({
@@ -8,7 +10,7 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
     email: "",
     password: "",
   });
-  const [passwordStrength, setPasswordStrength] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState({ label: "", color: "", icon: null });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,21 +27,21 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
     if (password.length < 8) {
-      setPasswordStrength("Too Short ❌ (Min. 8 chars)");
+      setPasswordStrength({ label: "Too Short", color: "text-red-500", icon: faTimes });
     } else if ((hasLetters && !hasNumbers) || (hasNumbers && !hasLetters)) {
-      setPasswordStrength("Weak ❌");
+      setPasswordStrength({ label: "Weak", color: "text-red-500", icon: faTimes });
     } else if (hasLetters && hasNumbers && !hasSpecialChar) {
-      setPasswordStrength("Medium ⚠️");
+      setPasswordStrength({ label: "Medium", color: "text-yellow-500", icon: faExclamationTriangle });
     } else {
-      setPasswordStrength("Strong ✅");
+      setPasswordStrength({ label: "Strong", color: "text-green-500", icon: faCheck });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (passwordStrength.includes("❌")) {
-      alert("Password must be at least 8 characters and contain letters and numbers. For strong security, add a special character.");
+    if (passwordStrength.label === "Too Short" || passwordStrength.label === "Weak") {
+      alert("Password must be at least 8 characters long and contain letters and numbers. For strong security, add a special character.");
       return;
     }
 
@@ -124,17 +126,10 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
               required
             />
             {/* Password Strength Indicator */}
-            <p
-              className={`text-sm mt-1 font-medium ${
-                passwordStrength.includes("Too Short") || passwordStrength.includes("Weak")
-                  ? "text-red-500"
-                  : passwordStrength.includes("Medium")
-                  ? "text-yellow-500"
-                  : "text-green-500"
-              }`}
-            >
-              {passwordStrength}
-            </p>
+            <div className={`text-sm mt-1 font-medium flex items-center gap-2 ${passwordStrength.color}`}>
+              {passwordStrength.icon && <FontAwesomeIcon icon={passwordStrength.icon} />}
+              {passwordStrength.label}
+            </div>
           </div>
 
           <button
