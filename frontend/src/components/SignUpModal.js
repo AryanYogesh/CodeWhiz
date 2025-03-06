@@ -8,20 +8,45 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
     email: "",
     password: "",
   });
+  const [passwordStrength, setPasswordStrength] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "password") {
+      evaluatePasswordStrength(value);
+    }
+  };
+
+  const evaluatePasswordStrength = (password) => {
+    const hasLetters = /[a-zA-Z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < 8) {
+      setPasswordStrength("Too Short ❌ (Min. 8 chars)");
+    } else if ((hasLetters && !hasNumbers) || (hasNumbers && !hasLetters)) {
+      setPasswordStrength("Weak ❌");
+    } else if (hasLetters && hasNumbers && !hasSpecialChar) {
+      setPasswordStrength("Medium ⚠️");
+    } else {
+      setPasswordStrength("Strong ✅");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (passwordStrength.includes("❌")) {
+      alert("Password must be at least 8 characters and contain letters and numbers. For strong security, add a special character.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:8000/auth/register", {
         method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
+        headers: { "Content-type": "application/json" },
         body: JSON.stringify(formData),
       });
 
@@ -46,19 +71,17 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
-        className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-96 transition-colors duration-300"
+        className="bg-white p-6 rounded-lg shadow-lg w-96 dark:bg-gray-900"
       >
-        {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold dark:text-gray-200">Sign Up</h2>
-          <button onClick={onClose} className="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-full transition">
-            <X className="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white" />
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Sign Up</h2>
+          <button onClick={onClose}>
+            <X className="w-6 h-6 text-gray-500 hover:text-gray-700 dark:text-gray-300" />
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit}>
-          {/* Full Name Field */}
+          {/* Name Field */}
           <div className="mb-4">
             <label className="block text-gray-700 dark:text-gray-300 text-sm font-medium">Full Name</label>
             <input
@@ -66,8 +89,7 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 
-                         dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 transition"
+              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-white"
               placeholder="Enter your full name"
               required
             />
@@ -81,8 +103,7 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 
-                         dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 transition"
+              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-white"
               placeholder="Enter your email"
               required
             />
@@ -90,33 +111,43 @@ const SignUpModal = ({ isOpen, onClose, switchToSignIn }) => {
 
           {/* Password Field */}
           <div className="mb-4">
-            <label className="block text-gray-700 dark:text-gray-300 text-sm font-medium">Password</label>
+            <label className="block text-gray-700 dark:text-gray-300 text-sm font-medium">
+              Password <span className="text-red-500">*</span>
+            </label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 
-                         dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 transition"
+              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-white"
               placeholder="Create a password"
               required
             />
+            {/* Password Strength Indicator */}
+            <p
+              className={`text-sm mt-1 font-medium ${
+                passwordStrength.includes("Too Short") || passwordStrength.includes("Weak")
+                  ? "text-red-500"
+                  : passwordStrength.includes("Medium")
+                  ? "text-yellow-500"
+                  : "text-green-500"
+              }`}
+            >
+              {passwordStrength}
+            </p>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 
-                       dark:bg-blue-600 dark:hover:bg-blue-700 transition"
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
           >
             Sign Up
           </button>
         </form>
 
-        {/* Sign-In Link */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center">
+        <p className="text-sm text-gray-600 mt-4 text-center dark:text-gray-400">
           Already have an account?{" "}
-          <button onClick={switchToSignIn} className="text-blue-500 dark:text-blue-400 hover:underline transition">
+          <button onClick={switchToSignIn} className="text-blue-500 hover:underline">
             Sign In
           </button>
         </p>
