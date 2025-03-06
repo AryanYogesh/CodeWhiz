@@ -1,62 +1,85 @@
 .hero-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 90vh; /* Reduce height */
-    background-color: #f3f4f6;
-    padding: 2rem;
-  }
-  
-  .hero-animation {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 50%;
-    margin-left: 100px;
-  }
-  
-  .hero-animation lottie-player {
-    width: 100%;
-    max-width: 350px; 
-  }
-  
-  .hero-content {
-    flex: 1;
-    text-align: left; 
-    padding-left: 2rem;
-    padding: 20px;
-    align-items: center;
-  }
-  
-  .hero-title {
-    font-size: 2rem;
-    margin: 20px;
-    font-weight: bold;
-    color: #2563eb; 
-  }
-  
-  .hero-text {
-    font-size: 1.125rem;
-    color: #4b5563; 
-    margin: 20px;
-    margin-bottom: 35px;
-  }
-  
-  .hero-button {
-    margin: 20px;
-    padding: 0.75rem 1.5rem;
-    background-color: #2563eb;
-    color: white;
-    font-size: 1.125rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    transition: background-color 0.3s;
-    align-items: center;
-  }
-  
-  .hero-button:hover {
-    background-color: #1d4ed8;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh; /* Reduce height */
+  background-color: #f3f4f6;
+  padding: 2rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.hero-animation {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%;
+  margin-left: 100px;
+}
+
+.hero-animation lottie-player {
+  width: 100%;
+  max-width: 350px; 
+}
+
+.hero-content {
+  flex: 1;
+  text-align: left; 
+  padding-left: 2rem;
+  padding: 20px;
+  align-items: center;
+}
+
+.hero-title {
+  font-size: 2rem;
+  margin: 20px;
+  font-weight: bold;
+  color: #2563eb; 
+  transition: color 0.3s ease-in-out;
+}
+
+.hero-text {
+  font-size: 1.125rem;
+  color: #4b5563; 
+  margin: 20px;
+  margin-bottom: 35px;
+  transition: color 0.3s ease-in-out;
+}
+
+.hero-button {
+  margin: 20px;
+  padding: 0.75rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
+  align-items: center;
+}
+
+.hero-button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Dark Mode Styles */
+.dark .hero-container {
+  background-color: #111827;
+}
+
+.dark .hero-title {
+  color: #93c5fd;
+}
+
+.dark .hero-text {
+  color: #9ca3af;
+}
+
+.dark .hero-button {
+  background-color: #3b82f6;
+}
+
+.dark .hero-button:hover {
+  background-color: #2563eb;
+}

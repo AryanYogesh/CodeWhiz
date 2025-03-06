@@ -25,11 +25,8 @@ const SignInModal = ({ isOpen, onClose, switchToSignUp, onLoginSuccess }) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.detail || "Login failed");
 
-    
       localStorage.setItem("user", JSON.stringify(data.user));
-
       onLoginSuccess(data.user);
-
       onClose();
     } catch (err) {
       setError(err.message);
@@ -44,13 +41,13 @@ const SignInModal = ({ isOpen, onClose, switchToSignUp, onLoginSuccess }) => {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
-        className="bg-white p-6 rounded-lg shadow-lg w-96"
+        className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-96 transition-colors duration-300"
       >
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">Sign In</h2>
-          <button onClick={onClose} className="hover:bg-gray-200 p-1 rounded-full">
-            <X className="w-6 h-6 text-gray-500 hover:text-gray-700" />
+          <h2 className="text-2xl font-semibold dark:text-gray-200">Sign In</h2>
+          <button onClick={onClose} className="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-full transition">
+            <X className="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white" />
           </button>
         </div>
 
@@ -60,24 +57,24 @@ const SignInModal = ({ isOpen, onClose, switchToSignUp, onLoginSuccess }) => {
         {/* Login Form */}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium">Email</label>
+            <label className="block text-gray-700 dark:text-gray-300 text-sm font-medium">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 transition"
               placeholder="Enter your email"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium">Password</label>
+            <label className="block text-gray-700 dark:text-gray-300 text-sm font-medium">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 transition"
               placeholder="Enter your password"
               required
             />
@@ -87,7 +84,7 @@ const SignInModal = ({ isOpen, onClose, switchToSignUp, onLoginSuccess }) => {
             type="submit"
             disabled={loading}
             className={`w-full py-2 rounded-md text-white transition ${
-              loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+              loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
             }`}
           >
             {loading ? "Signing in..." : "Sign In"}
@@ -95,9 +92,9 @@ const SignInModal = ({ isOpen, onClose, switchToSignUp, onLoginSuccess }) => {
         </form>
 
         {/* Sign Up Link */}
-        <p className="text-sm text-gray-600 mt-4 text-center">
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center">
           Don't have an account?{" "}
-          <button onClick={switchToSignUp} className="text-blue-500 hover:underline">
+          <button onClick={switchToSignUp} className="text-blue-500 dark:text-blue-400 hover:underline transition">
             Sign Up
           </button>
         </p>
