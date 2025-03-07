@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
-import ThemeToggle from "./ThemeToggle"; // ✅ Import ThemeToggle
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -11,10 +11,27 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null); // Reference for dropdown container
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) setUser(storedUser);
+  }, []);
+
+  useEffect(() => {
+    // Function to close dropdown if clicked outside
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleLoginSuccess = (userData) => {
@@ -53,12 +70,12 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Dark Mode Toggle ✅ */}
+          {/* Dark Mode Toggle */}
           <ThemeToggle />
 
           {/* User Profile or Auth Buttons */}
           {user ? (
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center space-x-2">
                 <User className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 <span className="text-gray-700 dark:text-gray-300">{user.username}</span>
