@@ -47,7 +47,7 @@ const FeaturesSection = () => {
               <motion.div
                 key={index}
                 className="bg-white dark:bg-gray-900 min-w-[250px] md:min-w-[300px] rounded-xl shadow-lg dark:shadow-gray-700 p-6 flex flex-col items-center text-center hover:shadow-2xl dark:hover:shadow-gray-600 transition"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 0.9 }}
               >
                 {feature.icon}
                 <h3 className="text-lg font-semibold mt-4 text-gray-800 dark:text-gray-200">{feature.title}</h3>
