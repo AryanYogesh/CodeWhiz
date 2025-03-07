@@ -6,3 +6,4 @@ pymysql
 passlib
 python-dotenv
 bcrypt
+smtplib

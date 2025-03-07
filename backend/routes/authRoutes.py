@@ -5,9 +5,32 @@ from models.User import User
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
+from routes.email_utils import send_email
+import secrets
 
 
 router = APIRouter()
+
+class ForgotPasswordRequest(BaseModel):
+    email:str
+
+@router.post("/forgot-password")
+def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == request.email).first()
+
+    if not User:
+        raise HTTPException(status_code=404, detail="user not found")
+    
+    reset_token = secrets.token_urlsafe(32)
+
+    reset_link = f"http://localhost:3000/reset-password?token={reset_token}"
+    subject = "Reset Your Password"
+    body = f"Click the link below to reset your password:\n{reset_link}"
+
+    email_response = send_email(request.email,subject, body)
+
+    return {"message": "Password reset link sent if the email is registers", "email_response": email_response}
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
