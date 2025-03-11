@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import PracticePage from "./pages/PracticePage";
+import ResetPassword from './components/ResetPassword';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/' element={<Home/>}/> 
         <Route path="/profile" element={<Profile />} />
         <Route path="/practice" element={<PracticePage />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
       <Footer/>
     </div>
