@@ -1,16 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
-import webProgrammingAnimation from "../assets/webProgramming.json"; // Store animation JSON here
+import CyberSecurityAnim from '../assets/CyberSecurityAnim.json';
+import webProgrammingAnimation from "../assets/webProgramming.json"; 
+import DSAAnimation from "../assets/DSAanimation.json";
+import sqlAnimation from '../assets/SQLAnimation.json';
+import dataAnal from '../assets/DataAnalysisAnimation.json';
+import machineAnimation from '../assets/MachineLearningAnim.json';
 
 const technologies = [
-  { name: "SQL", icon: "🗄️", bgColor: "bg-purple-500" },
-  { name: "Data Structures & Algorithms", icon: "📊", bgColor: "bg-red-500" },
-  { name: "Data Analytics", icon: "📈", bgColor: "bg-green-500" },
-  { name: "Web Programming", icon: <Lottie animationData={webProgrammingAnimation} loop className="w-16 h-16" />,
+  { name: "SQL", icon: <Lottie animationData={sqlAnimation} loop className="w-22 h-22" />, bgColor: "bg-purple-500" },
+  { name: "Data Structures & Algorithms", icon: <Lottie animationData={DSAAnimation} loop className="w-22 h-22" />, bgColor: "bg-red-500" },
+  { name: "Data Analytics", icon: <Lottie animationData={dataAnal} loop className="w-22 h-22" />, bgColor: "bg-green-500" },
+  { name: "Web Programming", icon: <Lottie animationData={webProgrammingAnimation} loop className="w-22 h-22" />,
   bgColor: "bg-blue-500" },
-  { name: "Machine Learning", icon: "🤖", bgColor: "bg-yellow-500" },
-  { name: "Cybersecurity", icon: "🔒", bgColor: "bg-gray-700" },
+  { name: "Machine Learning", icon: <Lottie animationData={machineAnimation} loop className="w-22 h-22" />, bgColor: "bg-yellow-500" },
+  { name: "Cybersecurity", icon: <Lottie animationData={CyberSecurityAnim} loop className="w-22 h-22" />, bgColor: "bg-gray-700" },
 ];
 
 const PracticePage = () => {
