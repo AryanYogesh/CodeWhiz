@@ -11,13 +11,30 @@ import chatbotAvatar from "../assets/chatbotAvatar.json";
 import { motion } from "framer-motion";
 
 const technologies = [
-  { name: "SQL", icon: sqlAnimation },
-  { name: "Data Structures & Algorithms", icon: DSAAnimation },
-  { name: "Data Analytics", icon: dataAnal },
-  { name: "Web Programming", icon: webProgrammingAnimation },
-  { name: "Machine Learning", icon: machineAnimation },
-  { name: "Cybersecurity", icon: CyberSecurityAnim },
+  { name: "SQL", icon: sqlAnimation, progress: 0, badge: null },
+  { name: "Data Structures & Algorithms", icon: DSAAnimation, progress: 0, badge: null },
+  { name: "Data Analytics", icon: dataAnal, progress: 0, badge: null },
+  { name: "Web Programming", icon: webProgrammingAnimation, progress: 0, badge: null },
+  { name: "Machine Learning", icon: machineAnimation, progress: 0, badge: null },
+  { name: "Cybersecurity", icon: CyberSecurityAnim, progress: 0, badge: null },
 ];
+
+const getBadge = (progress) => {
+  if (progress >= 100) return "🏆 Master";
+  if (progress >= 75) return "💎 Advanced";
+  if (progress >= 50) return "🔥 Intermediate";
+  if (progress >= 25) return "🌱 Beginner";
+  return null;
+};
+
+const loadProgress = () => {
+  const storedProgress = JSON.parse(localStorage.getItem("progress"));
+  return storedProgress || technologies.map((tech) => ({ ...tech, progress: 0, badge: null }));
+};
+
+const saveProgress = (updatedProgress) => {
+  localStorage.setItem("progress", JSON.stringify(updatedProgress));
+};
 
 const PracticePage = () => {
   const [chatOpen, setChatOpen] = useState(false);
@@ -25,12 +42,17 @@ const PracticePage = () => {
   const [greeting, setGreeting] = useState("");
   const [displayText, setDisplayText] = useState("");
   const [username, setUsername] = useState("");
+  const [userProgress, setUserProgress] = useState(loadProgress());
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUsername(parsedUser.username || "User");
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUsername(parsedUser.username || "User");
+      } catch (error) {
+        console.error("Error parsing user from localStorage:", error);
+      }
     }
   }, []);
 
@@ -41,7 +63,8 @@ const PracticePage = () => {
     if (hours < 12) timeGreeting = "Good Morning";
     else if (hours >= 12 && hours < 18) timeGreeting = "Good Afternoon";
 
-    setGreeting(`Hi ${username}, ${timeGreeting}!`);
+    const fullGreeting = `Hii ${username}, ${timeGreeting}!`.trim();
+    setGreeting(fullGreeting);
   });
 
   useEffect(() => {
@@ -78,7 +101,6 @@ const PracticePage = () => {
           </p>
         </motion.div>
       ) : (
-        // Show Content Only If Logged In
         <>
           <motion.div
             initial={{ x: "-100vw", opacity: 0 }}
@@ -107,29 +129,37 @@ const PracticePage = () => {
             </div>
           )}
 
-          {/* Topics - Only Show If Logged In */}
+          {/* Topics Section */}
           <div className="text-center w-full mt-8">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-300">Choose a topic to practice:</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-              {technologies.map((tech, index) => (
-                <button
+              {userProgress.map((tech, index) => (
+                <div
                   key={index}
-                  className="p-5 rounded-2xl shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white flex flex-col items-center"
+                  className="p-5 rounded-2xl shadow-lg transition transform hover:scale-105 bg-white dark:bg-gray-700 text-gray-900 dark:text-white flex flex-col items-center w-full"
                 >
                   <Lottie animationData={tech.icon} loop className="w-24 h-24" />
                   <p className="mt-3 font-medium text-lg text-center">{tech.name}</p>
-                </button>
+
+                  {/* Progress Bar */}
+                  <div className="w-full mt-3">
+                    <div className="relative w-full h-4 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden">
+                      <div
+                        className="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-500"
+                        style={{ width: `${tech.progress}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                      Progress: {tech.progress}% {tech.badge && `(${tech.badge})`}
+                    </p>
+                  </div>
+
+                  <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    {tech.progress > 0 ? "Continue" : "Get Started"}
+                  </button>
+                </div>
               ))}
             </div>
-          </div>
-
-          {/* AI Interview Prep - Only Show If Logged In */}
-          <div className="p-8 text-center w-full">
-            <Link to="/interview-prep">
-              <div className="bg-indigo-600 text-white px-6 py-4 rounded-xl shadow-lg text-lg font-semibold transition hover:bg-indigo-700 hover:scale-105">
-                Prepare for Interviews with AI
-              </div>
-            </Link>
           </div>
         </>
       )}
