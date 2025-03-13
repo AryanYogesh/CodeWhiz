@@ -24,15 +24,30 @@ const HeatMap = () => {
   };
 
   return (
-    <div className="mt-10 w-full flex flex-col items-center">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-        Your Activity Heatmap
+    <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-3xl">
+      {/* Title */}
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        Your Progress Map 📈
       </h2>
-      <div className="p-4 rounded-lg bg-white dark:bg-gray-900 shadow-lg">
+
+      {/* Heatmap */}
+      <div className="w-full flex justify-center overflow-x-auto">
         <ReactCalendarHeatmap
           startDate={subDays(new Date(), 179)}
           endDate={new Date()}
           values={getHeatmapValues()}
+          gutterSize={6} // More space between boxes
+          showWeekdayLabels
+          weekdayLabels={["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]}
+          horizontal={true}
+          transformDayElement={(rect) => {
+            return React.cloneElement(rect, {
+              width: 16, // Larger size for better visibility
+              height: 16,
+              rx: 4,
+              ry: 4,
+            });
+          }}
           classForValue={(value) => {
             if (!value || value.count === 0) return "color-empty";
             return `color-scale-${Math.min(value.count, 4)}`;
@@ -44,23 +59,32 @@ const HeatMap = () => {
       <style>
         {`
           .react-calendar-heatmap {
-            width: 800px; /* Set width to 800px */
+            width: 100%; /* Ensure it fits container */
+            max-width: 750px; /* Prevent excessive stretching */
           }
-          /* Light Mode Colors */
+          /* Weekday Labels Styling */
+          .react-calendar-heatmap .react-calendar-heatmap-weekday-labels {
+            font-size: 12px;
+            fill: #6b7280;
+          }
+          .dark .react-calendar-heatmap .react-calendar-heatmap-weekday-labels {
+            fill: #d1d5db;
+          }
+          /* Heatmap Colors */
           .color-empty {
-            fill: #ebedf0;
+            fill: #e5e7eb;
           }
           .color-scale-1 {
-            fill: #9be9a8;
+            fill: #cce5ff;
           }
           .color-scale-2 {
-            fill: #40c463;
+            fill: #66b2ff;
           }
           .color-scale-3 {
-            fill: #30a14e;
+            fill: #007bff;
           }
           .color-scale-4 {
-            fill: #216e39;
+            fill: #004085;
           }
           /* Dark Mode Colors */
           .dark .color-empty {
