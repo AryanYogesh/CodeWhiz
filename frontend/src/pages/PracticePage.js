@@ -64,55 +64,75 @@ const PracticePage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6 w-full">
-      <motion.div
-        initial={{ x: "-100vw", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8, type: "spring" }}
-        className="relative flex items-center w-full max-w-lg"
-      >
-        <Lottie animationData={chatbotAvatar} loop className="w-40 h-40" />
-        {showText && (
-          <div className="ml-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-6 rounded-lg shadow-lg text-xl font-semibold w-full">
-            {displayText}
-            <button
-              className="mt-3 px-5 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition w-full text-lg"
-              onClick={() => setChatOpen(!chatOpen)}
-            >
-              Open Chat
-            </button>
-          </div>
-        )}
-      </motion.div>
+      {/* Show Avatar and Message when NOT logged in */}
+      {!username ? (
+        <motion.div
+          initial={{ x: "-100vw", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8, type: "spring" }}
+          className="relative flex flex-col items-center w-full max-w-lg text-center"
+        >
+          <Lottie animationData={chatbotAvatar} loop className="w-40 h-40" />
+          <p className="mt-4 text-lg font-semibold bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-4 rounded-lg shadow-lg">
+            Please Sign In to Access Practice Features
+          </p>
+        </motion.div>
+      ) : (
+        // Show Content Only If Logged In
+        <>
+          <motion.div
+            initial={{ x: "-100vw", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, type: "spring" }}
+            className="relative flex items-center w-full max-w-lg"
+          >
+            <Lottie animationData={chatbotAvatar} loop className="w-40 h-40" />
+            {showText && (
+              <div className="ml-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-6 rounded-lg shadow-lg text-xl font-semibold w-full">
+                {displayText}
+                <button
+                  className="mt-3 px-5 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition w-full text-lg"
+                  onClick={() => setChatOpen(!chatOpen)}
+                >
+                  Open Chat
+                </button>
+              </div>
+            )}
+          </motion.div>
 
-      {chatOpen && (
-        <div className="p-6 bg-gray-200 dark:bg-gray-800 text-center rounded-lg shadow-lg mt-6 w-full max-w-md">
-          <p className="text-lg font-semibold text-gray-900 dark:text-white">🚀 AI Chatbot Coming Soon!</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Training in progress...</p>
-        </div>
+          {chatOpen && (
+            <div className="p-6 bg-gray-200 dark:bg-gray-800 text-center rounded-lg shadow-lg mt-6 w-full max-w-md">
+              <p className="text-lg font-semibold text-gray-900 dark:text-white">🚀 AI Chatbot Coming Soon!</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Training in progress...</p>
+            </div>
+          )}
+
+          {/* Topics - Only Show If Logged In */}
+          <div className="text-center w-full mt-8">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-300">Choose a topic to practice:</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
+              {technologies.map((tech, index) => (
+                <button
+                  key={index}
+                  className="p-5 rounded-2xl shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white flex flex-col items-center"
+                >
+                  <Lottie animationData={tech.icon} loop className="w-24 h-24" />
+                  <p className="mt-3 font-medium text-lg text-center">{tech.name}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* AI Interview Prep - Only Show If Logged In */}
+          <div className="p-8 text-center w-full">
+            <Link to="/interview-prep">
+              <div className="bg-indigo-600 text-white px-6 py-4 rounded-xl shadow-lg text-lg font-semibold transition hover:bg-indigo-700 hover:scale-105">
+                Prepare for Interviews with AI
+              </div>
+            </Link>
+          </div>
+        </>
       )}
-
-      <div className="text-center w-full mt-8">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-300">Choose a topic to practice:</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-          {technologies.map((tech, index) => (
-            <button
-              key={index}
-              className="p-5 rounded-2xl shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white flex flex-col items-center"
-            >
-              <Lottie animationData={tech.icon} loop className="w-24 h-24" />
-              <p className="mt-3 font-medium text-lg text-center">{tech.name}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="p-8 text-center w-full">
-        <Link to="/interview-prep">
-          <div className="bg-indigo-600 text-white px-6 py-4 rounded-xl shadow-lg text-lg font-semibold transition hover:bg-indigo-700 hover:scale-105">
-            Prepare for Interviews with AI
-          </div>
-        </Link>
-      </div>
     </div>
   );
 };

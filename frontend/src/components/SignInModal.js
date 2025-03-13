@@ -37,6 +37,7 @@ const SignInModal = ({ isOpen, onClose, switchToSignUp, onLoginSuccess }) => {
 
       localStorage.setItem("user", JSON.stringify(data.user));
       onLoginSuccess(data.user);
+      window.location.reload();
       onClose();
     } catch (err) {
       setError(err.message);
