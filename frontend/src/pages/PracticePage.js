@@ -133,9 +133,13 @@ const PracticePage = () => {
             </div>
           )}
 
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 w-full mt-10">
-            <DailyChallenges />
-            <Heatmap />
+          <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 w-full mt-10">
+            <div className="flex-1 flex items-center justify-center">
+              <DailyChallenges />
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <Heatmap/>
+            </div>
           </div>
 
           {/* Topics Section */}
