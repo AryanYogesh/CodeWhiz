@@ -9,6 +9,10 @@ import dataAnal from "../assets/DataAnalysisAnimation.json";
 import machineAnimation from "../assets/MachineLearningAnim.json";
 import chatbotAvatar from "../assets/chatbotAvatar.json";
 import { motion } from "framer-motion";
+import "react-calendar-heatmap/dist/styles.css";
+import Heatmap from "../components/HeatMap";
+import DailyChallenges from "../components/DailyChallenge";
+
 
 const technologies = [
   { name: "SQL", icon: sqlAnimation, progress: 0, badge: null },
@@ -63,7 +67,7 @@ const PracticePage = () => {
     if (hours < 12) timeGreeting = "Good Morning";
     else if (hours >= 12 && hours < 18) timeGreeting = "Good Afternoon";
 
-    const fullGreeting = `Hii ${username}, ${timeGreeting}!`.trim();
+    const fullGreeting = `Hey ${username}, ${timeGreeting}!`.trim();
     setGreeting(fullGreeting);
   });
 
@@ -129,6 +133,11 @@ const PracticePage = () => {
             </div>
           )}
 
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8 w-full mt-10">
+            <DailyChallenges />
+            <Heatmap />
+          </div>
+
           {/* Topics Section */}
           <div className="text-center w-full mt-8">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-300">Choose a topic to practice:</h2>
@@ -163,7 +172,9 @@ const PracticePage = () => {
           </div>
         </>
       )}
+
     </div>
+
   );
 };
 

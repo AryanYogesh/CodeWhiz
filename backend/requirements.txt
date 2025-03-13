@@ -6,6 +6,5 @@ pymysql
 passlib
 python-dotenv
 bcrypt
-smtplib
 python-decouple
 python-jose[cryptography]
