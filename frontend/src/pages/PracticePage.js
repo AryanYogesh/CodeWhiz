@@ -10,9 +10,10 @@ import machineAnimation from "../assets/MachineLearningAnim.json";
 import chatbotAvatar from "../assets/chatbotAvatar.json";
 import { motion } from "framer-motion";
 import "react-calendar-heatmap/dist/styles.css";
-import Heatmap from "../components/HeatMap";
+// import Heatmap from "../components/HeatMap";
 import DailyChallenges from "../components/DailyChallenge";
 import AiChatWindow from "../components/AiChatWindow";
+import PerformanceGraph from "../components/PerformanceGraph";
 
 const technologies = [
   { name: "SQL", icon: sqlAnimation, progress: 0, badge: null },
@@ -130,13 +131,14 @@ const PracticePage = () => {
           </motion.div>
 
           <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 w-full mt-10">
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex-1 flex items-center justify-center min-h-[100px]">
               <DailyChallenges />
             </div>
-            <div className="flex-1 flex items-center justify-center">
-              <Heatmap/>
+            <div className="flex-1 flex items-center justify-center min-h-[200px]">
+              <PerformanceGraph />
             </div>
           </div>
+
 
           {/* Topics Section */}
           <div className="text-center w-full mt-8">
