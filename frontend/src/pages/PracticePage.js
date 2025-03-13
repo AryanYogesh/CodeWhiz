@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import CyberSecurityAnim from "../assets/CyberSecurityAnim.json";
 import webProgrammingAnimation from "../assets/webProgramming.json";
-import DSAAnimation from "../assets/DSAAnimation.json";
+import DSAAnimation from "../assets/DSAanimation.json";
 import sqlAnimation from "../assets/SQLAnimation.json";
 import dataAnal from "../assets/DataAnalysisAnimation.json";
 import machineAnimation from "../assets/MachineLearningAnim.json";
@@ -13,7 +13,7 @@ import "react-calendar-heatmap/dist/styles.css";
 // import Heatmap from "../components/HeatMap";
 import DailyChallenges from "../components/DailyChallenge";
 import AiChatWindow from "../components/AiChatWindow";
-import PerformanceGraph from "../components/PerformanceGraph";
+import PerformanceGraph from "../components/PerformanceGraph";import AiChatWindow from "../components/AiChatWindow";
 
 const technologies = [
   { name: "SQL", icon: sqlAnimation, progress: 0, badge: null },
