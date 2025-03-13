@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import "react-calendar-heatmap/dist/styles.css";
 import Heatmap from "../components/HeatMap";
 import DailyChallenges from "../components/DailyChallenge";
-
+import AiChatWindow from "../components/AiChatWindow";
 
 const technologies = [
   { name: "SQL", icon: sqlAnimation, progress: 0, badge: null },
@@ -122,16 +122,12 @@ const PracticePage = () => {
                 >
                   Open Chat
                 </button>
+
+                <AiChatWindow username={username} isOpen={chatOpen} setIsOpen={setChatOpen} />
+
               </div>
             )}
           </motion.div>
-
-          {chatOpen && (
-            <div className="p-6 bg-gray-200 dark:bg-gray-800 text-center rounded-lg shadow-lg mt-6 w-full max-w-md">
-              <p className="text-lg font-semibold text-gray-900 dark:text-white">🚀 AI Chatbot Coming Soon!</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Training in progress...</p>
-            </div>
-          )}
 
           <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 w-full mt-10">
             <div className="flex-1 flex items-center justify-center">
