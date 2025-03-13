@@ -13,7 +13,7 @@ import "react-calendar-heatmap/dist/styles.css";
 // import Heatmap from "../components/HeatMap";
 import DailyChallenges from "../components/DailyChallenge";
 import AiChatWindow from "../components/AiChatWindow";
-import PerformanceGraph from "../components/PerformanceGraph";import AiChatWindow from "../components/AiChatWindow";
+import PerformanceGraph from "../components/PerformanceGraph";
 
 const technologies = [
   { name: "SQL", icon: sqlAnimation, progress: 0, badge: null },
