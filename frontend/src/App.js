@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import PracticePage from "./pages/PracticePage";
 import ResetPassword from './components/ResetPassword';
+import PracticeTopicPage from './pages/PracticeTopicPage';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/practice" element={<PracticePage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/practice/:topicName" element={<PracticeTopicPage />} />
       </Routes>
       <Footer/>
     </div>

@@ -8,3 +8,4 @@ python-dotenv
 bcrypt
 python-decouple
 python-jose[cryptography]
+email-validator

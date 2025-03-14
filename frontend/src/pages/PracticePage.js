@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import CyberSecurityAnim from "../assets/CyberSecurityAnim.json";
 import webProgrammingAnimation from "../assets/webProgramming.json";
-import DSAAnimation from "../assets/DSAanimation.json";
+import DSAAnimation from "../assets/DSAAnimation.json";
 import sqlAnimation from "../assets/SQLAnimation.json";
 import dataAnal from "../assets/DataAnalysisAnimation.json";
 import machineAnimation from "../assets/MachineLearningAnim.json";
@@ -165,9 +165,12 @@ const PracticePage = () => {
                     </p>
                   </div>
 
-                  <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                    {tech.progress > 0 ? "Continue" : "Get Started"}
-                  </button>
+                  <Link to={`/practice/${tech.name.toLowerCase().replace(/\s+/g, "-")}`} state={{ animation: JSON.stringify(tech.icon) }}>
+                    <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                      {tech.progress > 0 ? "Continue" : "Get Started"}
+                    </button>
+                  </Link>
+
                 </div>
               ))}
             </div>
